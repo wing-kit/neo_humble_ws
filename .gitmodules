@@ -1,0 +1,21 @@
+[submodule "src/neo_common2"]
+	path = src/neo_common2
+	url = https://github.com/wing-kit/neo_common2.git
+[submodule "src/neo_local_planner2"]
+	path = src/neo_local_planner2
+	url = https://github.com/wing-kit/neo_local_planner2.git
+[submodule "src/neo_localization2"]
+	path = src/neo_localization2
+	url = https://github.com/wing-kit/neo_localization2.git
+[submodule "src/neo_msgs2"]
+	path = src/neo_msgs2
+	url = https://github.com/wing-kit/neo_msgs2.git
+[submodule "src/neo_nav2_bringup"]
+	path = src/neo_nav2_bringup
+	url = https://github.com/wing-kit/neo_nav2_bringup.git
+[submodule "src/neo_simulation2"]
+	path = src/neo_simulation2
+	url = https://github.com/wing-kit/neo_simulation2.git
+[submodule "src/neo_srvs2"]
+	path = src/neo_srvs2
+	url = https://github.com/wing-kit/neo_srvs2.git
