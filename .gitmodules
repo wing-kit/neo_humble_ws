@@ -20,7 +20,7 @@
 	branch = humble
 [submodule "src/neo_simulation2"]
 	path = src/neo_simulation2
-	url = https://github.com/wing-kit/neo_simulation2.git
+	url = git@github.com:wing-kit/neo_simulation2.git
 	branch = humble
 [submodule "src/neo_srvs2"]
 	path = src/neo_srvs2
