@@ -2,10 +2,14 @@
 set -eo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DISPLAY=${DISPLAY:-:10}
 
-# Use ubuntu home dir for pid/log so the script works when run as ubuntu user.
-RUNDIR="/home/ubuntu/.neo_sim"
+# Default DISPLAY for Docker headless; on a normal PC keep whatever is already set.
+if [[ -f /.dockerenv ]]; then
+    export DISPLAY=${DISPLAY:-:10}
+fi
+
+# Use home dir for pid/log so the script works on any host.
+RUNDIR="${HOME}/.neo_sim"
 mkdir -p "$RUNDIR"
 PIDFILE="$RUNDIR/neo_simulation.pid"
 LOGFILE="$RUNDIR/neo_simulation.log"
@@ -188,8 +192,13 @@ start_gui() {
     fi
 
     echo "=> Starting Gazebo GUI (gzclient)..."
-    export DISPLAY=${DISPLAY:-:10}
-    export XAUTHORITY=${XAUTHORITY:-/home/ubuntu/.Xauthority}
+    # Default to :10 only in Docker; otherwise trust the host DISPLAY.
+    if [[ -f /.dockerenv ]]; then
+        export DISPLAY=${DISPLAY:-:10}
+    else
+        export DISPLAY=${DISPLAY:-:0}
+    fi
+    export XAUTHORITY=${XAUTHORITY:-$HOME/.Xauthority}
 
     # Write a small launcher script to avoid heredoc background quirks
     local launcher="$RUNDIR/start_gzclient.sh"

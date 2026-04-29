@@ -2,7 +2,7 @@
 Launch-testing based end-to-end movement test.
 
 Usage:
-    cd /home/ubuntu/shared/neobotix_workspace
+    cd $HOME/shared/neobotix_workspace
     source install/setup.bash
     launch_test src/neobotix_e2e_test/test/test_e2e_movement.py -v
 """

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Gazebo GUI
 Comment=Launch Gazebo client for neo_workshop
-Exec=bash -c 'export DISPLAY=:10; source /opt/ros/humble/setup.bash; source /home/ubuntu/shared/neobotix_workspace/install/setup.bash; exec gzclient --gui-client-plugin=libgazebo_ros_eol_gui.so'
+Exec=bash -c 'cd "$(dirname "$(readlink -f "%k")")" && exec ./run_gazebo_gui.sh'
 Type=Application
 Terminal=false
 Icon=applications-graphics
