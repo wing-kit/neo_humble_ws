@@ -9,7 +9,14 @@ if [[ -f /.dockerenv ]]; then
 fi
 
 # Use home dir for pid/log so the script works on any host.
-RUNDIR="${HOME}/.neo_sim"
+# When invoked with sudo, fall back to the original user's home.
+if [[ -n "${SUDO_USER:-}" ]] && [[ -d "/home/${SUDO_USER}" ]]; then
+    RUNDIR="/home/${SUDO_USER}/.neo_sim"
+elif [[ -n "${SUDO_USER:-}" ]] && [[ "${HOME}" == "/root" ]]; then
+    RUNDIR="/root/.neo_sim"
+else
+    RUNDIR="${HOME}/.neo_sim"
+fi
 mkdir -p "$RUNDIR"
 PIDFILE="$RUNDIR/neo_simulation.pid"
 LOGFILE="$RUNDIR/neo_simulation.log"
@@ -102,7 +109,7 @@ stop_sim() {
     local waited=0
     while kill -0 "$pid" 2>/dev/null && [[ $waited -lt 15 ]]; do
         sleep 1
-        ((waited++))
+        waited=$((waited + 1))
     done
 
     if kill -0 "$pid" 2>/dev/null; then
@@ -139,7 +146,7 @@ cleanup_stale() {
     # Kill any remaining gazebo / ros2 / robot_state_publisher processes
     # tied to this specific simulation workspace.
     local pids
-    pids=$(pgrep -f "gzserver.*neo_workshop|gzclient|ros2 launch neo_simulation2|spawn_entity.*mpo_700|robot_state_publisher.*neo_workshop" || true)
+    pids=$(pgrep -f "gzserver.*neo_workshop|gzclient|ros2 launch neo_simulation2|spawn_entity.*mpo_700|robot_state_publisher|xterm.*teleop|teleop_twist_keyboard" || true)
     if [[ -n "$pids" ]]; then
         echo "=> Cleaning up stale processes..."
         echo "$pids" | xargs -r kill -KILL 2>/dev/null || true
