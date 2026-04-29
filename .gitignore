@@ -26,3 +26,7 @@ __pycache__/
 *.tmp
 *.bak
 *.log
+
+# TF visualization artifacts
+frames_*.gv
+frames_*.pdf
